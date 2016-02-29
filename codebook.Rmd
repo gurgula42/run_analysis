@@ -1,0 +1,79 @@
+
+
+Code book for the John Hopkins Getting and Cleaning Data Course Project 
+==============
+Describes the variables, the data, and any transformations or work was performed to clean up the data
+
+
+Source of the data
+--------------
+- This dataset is derived from the "Human Activity Recognition Using Smartphones Data Set" which was originally made avaiable here with full description:
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+
+- The data for the project:
+https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+
+
+Data set information
+--------------
+The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data.
+
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain.
+
+
+Attribute information
+--------------
+- Triaxial acceleration from the accelerometer (total acceleration) and the estimated body        acceleration.
+- Triaxial Angular velocity from the gyroscope. 
+- A 561-feature vector with time and frequency domain variables. 
+- Its activity label. 
+- An identifier of the subject who carried out the experiment.
+
+
+**The run_analysis.R script performs the following steps to clean the data:**
+--------------
+
+1. Merge the training and the test sets to create one data set.
+
+- Set working directory
+
+- Read X_test.txt, y_test.txt, and subject_test.txt from the "./UCI HAR dataset/test" folder and   store them in X_test, y_test and subject_test variables respectively.
+
+- Read X_train.txt, y_train.txt, and subject_train.txt from the "./UCI HAR dataset/train" folder   and store them in X_train, y_train and subject_train variables respectively.
+
+- Read features.txt and activity_labels.txt from the "./UCI HAR dataset" folder and store them   in features and activity_labels variables respectively.
+
+- Open dplyr package and read each data into tbl_df for the dplyr package
+
+- Set column names to in subject_train and subject_test to subject and in y_test and y_train to   activity
+
+- Merge train and test data sets into merged_train (7352x564) and merged_test (2947x564) tables   using cbind function
+
+- Label merged_train and merged_test with an additional column named set and content: train or    test
+
+- Merge merged_train (7352x564) and merged_test (2947x564) tables into one merged_all             (10299x564) using rbind function
+
+2.  Extracts only the measurements on the mean and standard deviation for each measurement.
+
+- Filter features to find columns with measurements on the mean and standard deviation for each   measurement creating filtered_features_mean (46x2), filtered_features_std (33x2) and merge      into one filtered_features (79x2)
+
+- Read merged_all data into tbl_df
+
+- Extract only the measurements from merged_all on the mean and standard deviation for each       measurement into selected_data (10299x81) using select function on subject, activity, and       (filtered_features$V1+2) columns
+
+
+3. Give descriptive activity names in selected_data to name the activities in the data set using    activity_labels
+
+4. Label appropriately the data set with descriptive variable names:
+    - Using filtered_features table, creating filtered_columnames. 
+    - Column names of selected data are changed by the colnames function. 
+    - Additional removing of "-" and "()" characters from column names of the selected_data           table.
+    - Overwrite "mean" to "Mean" and "std" to "Std" to make column names easier to read and           understand.
+    
+    
+5. From the data set in step 4, create a second, independent tidy data set with the average of each variable for each activity and each subject.    
+    - Using the group_by and summarize_each function of the dplyr package create a sum_all tidy       data set: each row is an observation, each column is a variable, 
+      and the table contains a single observational unit. 
+
+
+- Creating a sum_all.txt file by using the write.table function to submit the resulting data set 

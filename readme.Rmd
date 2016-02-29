@@ -1,0 +1,26 @@
+README.md for Getting and Cleaning Data Course Project 
+==============
+
+Overview
+--------------
+This project serves to collect, work with, and clean a data set in order to prepare a tidy data set that can be used for subsequent analysis. 
+
+A full description of the data used in this project can be found at The UCI Machine Learning Repository:
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+
+Project Summary
+--------------
+
+The R script, run_analysis.R, does the following:
+Loads both the training and test data sets, the activity, and feature info.
+Loads the activity and subject data for each dataset and merges those columns with the dataset.
+Merges the two datasets. 
+Extracts only the measurements on the mean and standard deviation for each measurement.
+Uses descriptive activity names to name the activities in the data set.
+Labels the data set with descriptive variable names.
+Creates a tidy data set that consists of the average (mean) value of each variable for each each activity subject and .
+The end result is written into the file sum_all.txt.
+
+Additional Information
+--------------
+Additional information about the variables, data, and transformations can be find in the codebook.md file.
